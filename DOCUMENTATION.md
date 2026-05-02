@@ -12,7 +12,8 @@
 
 ### Development
 - **[API Documentation](backend/README.md)** - Complete API reference and usage examples
-- **[Frontend Plan](FRONTEND_PLAN.md)** - Simple 6-8 hour plan to build React frontend
+- **[Frontend Documentation](FRONTEND_README.md)** - Complete guide for the existing frontend UI
+- **[Frontend Plan](FRONTEND_PLAN.md)** - Alternative React development plan (if rebuilding)
 - **[Deployment Guide](backend/DEPLOYMENT.md)** - Deploy to IBM Cloud step-by-step
 
 ---
