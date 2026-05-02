@@ -1,0 +1,79 @@
+{
+  "clauses": [
+    {
+      "id": "conf-001",
+      "type": "confidentiality",
+      "text": "The Receiving Party agrees to hold all Confidential Information in strict confidence and not disclose it to any third party without prior written consent."
+    },
+    {
+      "id": "conf-002",
+      "type": "confidentiality",
+      "text": "All proprietary information, trade secrets, and business data shared during the term of this agreement shall remain confidential for a period of five (5) years following termination."
+    },
+    {
+      "id": "conf-003",
+      "type": "confidentiality",
+      "text": "The parties acknowledge that unauthorized disclosure of Confidential Information may cause irreparable harm and agree to implement reasonable security measures to prevent such disclosure."
+    },
+    {
+      "id": "term-001",
+      "type": "termination",
+      "text": "Either party may terminate this Agreement upon thirty (30) days written notice to the other party. Termination shall not affect any obligations that have accrued prior to the effective date of termination."
+    },
+    {
+      "id": "term-002",
+      "type": "termination",
+      "text": "This Agreement may be terminated immediately by either party in the event of a material breach by the other party, provided that written notice of such breach has been given and the breaching party has failed to cure within fifteen (15) days."
+    },
+    {
+      "id": "indem-001",
+      "type": "indemnification",
+      "text": "The Service Provider shall indemnify, defend, and hold harmless the Client from any claims, damages, losses, or expenses arising from the Service Provider's negligence or willful misconduct in performing services under this Agreement."
+    },
+    {
+      "id": "indem-002",
+      "type": "indemnification",
+      "text": "Each party agrees to indemnify the other against any third-party claims arising from intellectual property infringement, provided that the indemnified party promptly notifies the indemnifying party of such claims."
+    },
+    {
+      "id": "liab-001",
+      "type": "liability",
+      "text": "In no event shall either party be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, revenue, or data, even if advised of the possibility of such damages."
+    },
+    {
+      "id": "liab-002",
+      "type": "liability",
+      "text": "The total liability of either party under this Agreement shall not exceed the total fees paid or payable under this Agreement in the twelve (12) months preceding the event giving rise to liability."
+    },
+    {
+      "id": "pay-001",
+      "type": "payment",
+      "text": "Client agrees to pay all invoiced amounts within thirty (30) days of the invoice date. Late payments shall accrue interest at the rate of 1.5% per month or the maximum rate permitted by law, whichever is lower."
+    },
+    {
+      "id": "pay-002",
+      "type": "payment",
+      "text": "All fees are non-refundable unless otherwise specified in writing. Payment terms may be modified only by written agreement signed by both parties."
+    },
+    {
+      "id": "ip-001",
+      "type": "intellectual property",
+      "text": "All intellectual property rights in any work product, deliverables, or materials created under this Agreement shall be owned exclusively by the Client upon full payment of all fees."
+    },
+    {
+      "id": "ip-002",
+      "type": "intellectual property",
+      "text": "Each party retains all rights to its pre-existing intellectual property. Any improvements or derivative works based on pre-existing IP shall be jointly owned by both parties."
+    },
+    {
+      "id": "disp-001",
+      "type": "dispute resolution",
+      "text": "Any disputes arising under this Agreement shall first be subject to good faith negotiation between the parties. If not resolved within thirty (30) days, the dispute shall be submitted to binding arbitration in accordance with the rules of the American Arbitration Association."
+    },
+    {
+      "id": "disp-002",
+      "type": "dispute resolution",
+      "text": "This Agreement shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of law provisions. The parties consent to the exclusive jurisdiction of courts located in Delaware for any legal proceedings."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "legal-document-review-backend",
+  "version": "1.0.0",
+  "description": "Backend API for legal document review application using IBM Watson NLU and Cloudant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "legal",
+    "document-review",
+    "watson",
+    "nlu",
+    "cloudant"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ibm-watson": "^12.2.0",
+    "@ibm-cloud/cloudant": "^0.12.19",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
