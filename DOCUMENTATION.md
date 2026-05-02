@@ -12,6 +12,7 @@
 
 ### Development
 - **[API Documentation](backend/README.md)** - Complete API reference and usage examples
+- **[Frontend Plan](FRONTEND_PLAN.md)** - Simple 6-8 hour plan to build React frontend
 - **[Deployment Guide](backend/DEPLOYMENT.md)** - Deploy to IBM Cloud step-by-step
 
 ---
@@ -62,7 +63,22 @@
 
 ---
 
-### 4️⃣ [Deployment Guide](backend/DEPLOYMENT.md)
+### 4️⃣ [Frontend Plan](FRONTEND_PLAN.md)
+**Simple plan to build a React web interface**
+
+- React.js setup guide
+- Component structure (TextInput, AnalyzeButton, Results)
+- API integration with backend
+- Simple styling guide
+- 6-8 hour MVP timeline
+- Optional enhancements
+- Deployment options (Vercel, Netlify)
+
+**Time to complete:** 6-8 hours for MVP
+
+---
+
+### 5️⃣ [Deployment Guide](backend/DEPLOYMENT.md)
 **Deploy your application to IBM Cloud**
 
 - IBM Cloud service setup
@@ -84,6 +100,13 @@
 2. Follow [Get Cloudant Credentials](backend/get-cloudant-credentials.md)
 3. Run `node verify-credentials.js` to test
 4. Start developing!
+
+### Frontend Development
+1. Backend must be running first
+2. Follow [Frontend Plan](FRONTEND_PLAN.md)
+3. Build React components step-by-step
+4. Test with local backend
+5. Deploy to Vercel or Netlify
 
 ### API Integration
 1. Review [API Documentation](backend/README.md)
