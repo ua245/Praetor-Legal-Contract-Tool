@@ -1,47 +1,57 @@
 # Praetor - Legal Document Review Platform
 
-A legal contract and document review application that provides AI-powered analysis using IBM Watson NLU and Cloudant database, with a modern web interface for drag-and-drop document upload.
+> AI-powered legal contract and document review application with drag-and-drop interface
 
-## Features
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-14+-green.svg)](https://nodejs.org/)
+[![IBM Watson](https://img.shields.io/badge/IBM-Watson%20NLU-blue.svg)](https://www.ibm.com/watson)
 
-- **Drag & Drop Document Upload**: Upload Word (.docx) documents for instant analysis
-- **AI-Powered Analysis**: IBM Watson Natural Language Understanding for entity extraction, sentiment analysis, and risk assessment
-- **Annotated Documents**: Download Word documents with embedded analysis results and risk assessments
-- **Risk Scoring**: Automated risk calculation (0-100 scale) based on sentiment, entities, and keywords
-- **Clause Library**: Pre-loaded legal clauses for testing and analysis
-- **Modern UI**: Cyberpunk-themed interface with dark/light mode support
-- **Cloud Storage**: IBM Cloudant database for persistent analysis history
+## 📋 Overview
 
-## Architecture
+Praetor is a legal document review platform that leverages IBM Watson Natural Language Understanding to analyze contracts and legal documents. Simply drag and drop Word documents to receive instant AI-powered analysis with risk assessments, entity extraction, and annotated output documents.
+
+## ✨ Key Features
+
+- **🎯 Drag & Drop Interface**: Upload Word (.docx) documents with a simple drag-and-drop
+- **🤖 AI-Powered Analysis**: IBM Watson NLU for entity extraction, sentiment analysis, and risk assessment
+- **📊 Risk Scoring**: Automated risk calculation (0-100 scale) based on sentiment, entities, and keywords
+- **📄 Annotated Documents**: Download Word documents with embedded analysis results
+- **📚 Clause Library**: 15 pre-loaded legal clauses for testing and analysis
+- **💾 Cloud Storage**: IBM Cloudant database for persistent analysis history
+- **🎨 Modern UI**: Cyberpunk-themed interface with dark/light mode support
+- **📱 Responsive Design**: Works seamlessly on desktop and mobile devices
+
+## 🏗️ Architecture
 
 ### Backend (Node.js/Express)
-- **Watson NLU Service**: Text analysis and entity extraction
-- **Cloudant Database**: NoSQL storage for analysis results
+- **Watson NLU Service**: Advanced text analysis and entity extraction
+- **Cloudant Database**: NoSQL storage for analysis results with IAM authentication
 - **Document Processing**: 
-  - Upload: Multer middleware for file handling
-  - Extraction: Mammoth for .docx text extraction
-  - Generation: docx library for creating annotated documents
-- **REST API**: 10 endpoints for document upload, analysis, and retrieval
+  - Upload handling with Multer (10MB limit, .docx only)
+  - Text extraction using Mammoth
+  - Document generation with docx library
+- **REST API**: 10 endpoints for document operations and analysis
 
 ### Frontend (HTML/CSS/JavaScript)
-- **Drag & Drop Interface**: File upload with visual feedback
+- **Drag & Drop Interface**: Intuitive file upload with visual feedback
 - **Real-time Updates**: Progress indicators and status messages
 - **Results Dashboard**: Visual display of risk scores, entities, and factors
-- **Responsive Design**: Works on desktop and mobile devices
+- **Responsive Design**: Bootstrap 5 with custom cyberpunk styling
 
-## Installation
+## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 14+ and npm
+- Python 3 (for frontend server)
 - IBM Cloud account with:
   - Watson Natural Language Understanding service
   - Cloudant database service
 
-### Setup
+### Installation
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/yourusername/Praetor.git
 cd Praetor
 ```
 
@@ -73,33 +83,30 @@ cd backend
 npm start
 ```
 
-5. **Open the frontend**
-
-Open `index.html` in a web browser or serve it with a local server:
+5. **Start the frontend server**
 ```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js http-server
-npx http-server -p 8000
+# From project root
+python3 -m http.server 8000
 ```
 
-Access the application at `http://localhost:8000`
+6. **Access the application**
 
-## Usage
+Open your browser and navigate to: **http://localhost:8000**
+
+## 📖 Usage Guide
 
 ### Document Upload & Analysis
 
-1. Navigate to the **DOCUMENTS** tab
-2. Drag and drop a Word (.docx) file onto the upload zone, or click to browse
-3. Wait for the analysis to complete (progress bar shows status)
-4. Click **Download** to get your annotated document with analysis results
-5. View detailed results in the **RISK ENGINE** tab
+1. **Navigate to DOCUMENTS tab** in the application
+2. **Drag and drop** a Word (.docx) file onto the upload zone, or click to browse
+3. **Wait for analysis** - progress bar shows upload and processing status
+4. **Download results** - click the Download button to get your annotated document
+5. **View detailed analysis** - switch to RISK ENGINE tab for comprehensive results
 
-### Text Analysis (Alternative)
+### Text Analysis (Alternative Method)
 
-1. Navigate to the **DOCUMENTS** tab
-2. Scroll to the "Text Analysis" section
+1. Navigate to **DOCUMENTS** tab
+2. Scroll to the **Text Analysis** section
 3. Paste legal text into the textarea
 4. Select clause type (optional)
 5. Click **Analyse Text**
@@ -107,11 +114,11 @@ Access the application at `http://localhost:8000`
 
 ### Clause Library
 
-1. Navigate to the **CLAUSE LIBRARY** tab
+1. Navigate to **CLAUSE LIBRARY** tab
 2. Browse 15 pre-loaded legal clauses
-3. Click **Load Payload** on any clause to analyze it
+3. Click **Load Payload** on any clause to analyze it instantly
 
-## API Endpoints
+## 🔌 API Endpoints
 
 ### Document Operations
 - `POST /api/document/upload` - Upload and analyze Word document
@@ -129,55 +136,55 @@ Access the application at `http://localhost:8000`
 - `GET /api/results` - List analysis results
 - `GET /api/results/:id` - Get specific result
 
-## Risk Scoring Algorithm
+## 📊 Risk Scoring Algorithm
 
-The system calculates risk scores (0-100) based on:
+The system calculates risk scores (0-100) based on three weighted factors:
 
-1. **Sentiment Analysis** (40% weight)
-   - Negative sentiment increases risk
-   - Neutral sentiment = moderate risk
-   - Positive sentiment decreases risk
+### 1. Sentiment Analysis (40% weight)
+- **Negative sentiment** → Increases risk
+- **Neutral sentiment** → Moderate risk
+- **Positive sentiment** → Decreases risk
 
-2. **Entity Detection** (30% weight)
-   - Legal entities (Person, Organization, Location)
-   - Financial terms (Money, Quantity)
-   - Temporal references (Date)
+### 2. Entity Detection (30% weight)
+- Legal entities (Person, Organization, Location)
+- Financial terms (Money, Quantity)
+- Temporal references (Date)
 
-3. **Keyword Analysis** (30% weight)
-   - High-risk keywords: liability, termination, breach, penalty
-   - Medium-risk keywords: confidential, indemnify, dispute
-   - Presence increases risk score
+### 3. Keyword Analysis (30% weight)
+- **High-risk keywords**: liability, termination, breach, penalty
+- **Medium-risk keywords**: confidential, indemnify, dispute
+- Presence increases overall risk score
 
 **Risk Levels:**
-- **Low**: 0-33 (Green)
-- **Medium**: 34-66 (Yellow)
-- **High**: 67-100 (Red)
+- 🟢 **Low**: 0-33 (Green indicator)
+- 🟡 **Medium**: 34-66 (Yellow indicator)
+- 🔴 **High**: 67-100 (Red indicator)
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 Praetor/
 ├── backend/
 │   ├── routes/
-│   │   ├── analysis.routes.js    # Text analysis endpoints
-│   │   └── document.routes.js    # Document upload/download
+│   │   ├── analysis.routes.js      # Text analysis endpoints
+│   │   └── document.routes.js      # Document upload/download
 │   ├── services/
-│   │   ├── watson.service.js     # Watson NLU integration
-│   │   └── cloudant.service.js   # Cloudant database
+│   │   ├── watson.service.js       # Watson NLU integration
+│   │   └── cloudant.service.js     # Cloudant database
 │   ├── data/
-│   │   └── clauses.json          # Pre-loaded legal clauses
-│   ├── uploads/                  # Temporary file storage
-│   ├── server.js                 # Express application
+│   │   └── clauses.json            # Pre-loaded legal clauses
+│   ├── uploads/                    # Temporary file storage
+│   ├── server.js                   # Express application
 │   ├── package.json
-│   └── .env
-├── index.html                    # Frontend UI
-├── script.js                     # Frontend logic
-├── style.css                     # Styling
-├── DOCUMENTATION.md              # Detailed API docs
-└── README.md                     # This file
+│   └── .env                        # Environment variables
+├── index.html                      # Frontend UI
+├── script.js                       # Frontend logic
+├── style.css                       # Styling
+├── DOCUMENTATION.md                # Detailed API docs
+└── README.md                       # This file
 ```
 
-## Technologies Used
+## 🛠️ Technologies Used
 
 ### Backend
 - **Express.js** - Web framework
@@ -186,36 +193,26 @@ Praetor/
 - **Multer** - File upload handling
 - **Mammoth** - Word document text extraction
 - **docx** - Word document generation
+- **dotenv** - Environment configuration
 
 ### Frontend
 - **HTML5/CSS3** - Structure and styling
 - **JavaScript (ES6+)** - Client-side logic
-- **Bootstrap 5** - UI components
-- **Lucide Icons** - Icon library
+- **Bootstrap 5** - UI components and grid system
+- **Lucide Icons** - Modern icon library
+- **Google Fonts** - Inter & Space Grotesk typography
 
-## Security Features
+## 🔒 Security Features
 
-- File type validation (.docx only)
-- File size limits (10MB max)
-- Automatic file cleanup after download
-- IAM authentication for IBM Cloud services
-- Environment variable configuration
-- CORS enabled for cross-origin requests
+- ✅ File type validation (.docx only)
+- ✅ File size limits (10MB maximum)
+- ✅ Automatic file cleanup after download
+- ✅ IAM authentication for IBM Cloud services
+- ✅ Environment variable configuration
+- ✅ CORS enabled for cross-origin requests
+- ✅ Input sanitization and validation
 
-## Development
-
-### Running in Development Mode
-
-```bash
-# Backend with auto-reload
-cd backend
-npm run dev
-
-# Frontend with live server
-npx http-server -p 8000
-```
-
-### Testing
+## 🧪 Testing
 
 Test the API with curl:
 
@@ -232,52 +229,93 @@ curl -X POST http://localhost:3000/api/analyze/custom \
   -d '{"text":"This agreement shall terminate immediately upon breach."}'
 ```
 
-## Deployment
+## 🚢 Deployment
 
 ### IBM Cloud Deployment
 
-1. Create IBM Cloud services (Watson NLU, Cloudant)
-2. Configure environment variables
-3. Deploy backend to IBM Cloud Foundry or Kubernetes
-4. Host frontend on IBM Cloud Object Storage or CDN
+1. **Create IBM Cloud services**
+   - Watson Natural Language Understanding
+   - Cloudant database
+
+2. **Configure environment variables** in IBM Cloud
+
+3. **Deploy backend**
+   - IBM Cloud Foundry
+   - IBM Kubernetes Service
+   - IBM Code Engine
+
+4. **Host frontend**
+   - IBM Cloud Object Storage
+   - IBM Cloud CDN
+   - Static web hosting
 
 See `DOCUMENTATION.md` for detailed deployment instructions.
 
-## Troubleshooting
+## 🐛 Troubleshooting
 
 ### Common Issues
 
 **Backend won't start:**
-- Check `.env` file exists and has correct credentials
-- Verify Node.js version (14+)
-- Run `npm install` to ensure dependencies are installed
+- ✓ Check `.env` file exists with correct credentials
+- ✓ Verify Node.js version (14+)
+- ✓ Run `npm install` to ensure dependencies are installed
+- ✓ Check if port 3000 is already in use
 
 **File upload fails:**
-- Ensure file is .docx format
-- Check file size is under 10MB
-- Verify `backend/uploads/` directory exists
+- ✓ Ensure file is .docx format
+- ✓ Check file size is under 10MB
+- ✓ Verify `backend/uploads/` directory exists
+- ✓ Check browser console for errors
 
 **Analysis returns errors:**
-- Verify Watson NLU credentials are correct
-- Check Watson NLU service is active in IBM Cloud
-- Ensure text is not empty
+- ✓ Verify Watson NLU credentials are correct
+- ✓ Check Watson NLU service is active in IBM Cloud
+- ✓ Ensure text is not empty
+- ✓ Review backend logs for detailed error messages
 
 **Download doesn't work:**
-- Check browser console for errors
-- Verify backend is running
-- Ensure file was successfully analyzed
+- ✓ Check browser console for errors
+- ✓ Verify backend is running
+- ✓ Ensure file was successfully analyzed
+- ✓ Check network tab for failed requests
 
-## License
+## 👥 Team
 
-MIT License - See LICENSE file for details
+**Development Team:**
+- **Umer Ahmed** - Lead Developer
+- **Emad Moeez Syed** - Developer
 
-## Support
+## 📄 License
 
-For issues and questions:
-- Check `DOCUMENTATION.md` for detailed API documentation
-- Review error messages in browser console
-- Check backend logs for server-side errors
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Credits
+## 🙏 Acknowledgments
 
-Built with IBM Watson and Cloudant services.
+- Built with [IBM Watson](https://www.ibm.com/watson) Natural Language Understanding
+- Powered by [IBM Cloudant](https://www.ibm.com/cloud/cloudant) database
+- UI inspired by cyberpunk aesthetics
+- Icons by [Lucide](https://lucide.dev/)
+
+## 📞 Support
+
+For issues, questions, or contributions:
+- 📖 Check `DOCUMENTATION.md` for detailed API documentation
+- 🐛 Open an issue on GitHub
+- 💬 Review error messages in browser console
+- 📋 Check backend logs for server-side errors
+
+## 🗺️ Roadmap
+
+- [ ] Support for PDF document upload
+- [ ] Multi-language support
+- [ ] Advanced clause comparison
+- [ ] Export to multiple formats
+- [ ] Collaborative review features
+- [ ] Custom risk scoring rules
+- [ ] Integration with legal databases
+
+---
+
+**Made with ❤️ by the Praetor Team**
+
+*Empowering legal professionals with AI-driven document analysis*
