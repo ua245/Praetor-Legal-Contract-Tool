@@ -86,12 +86,16 @@ router.post('/upload', upload.single('document'), async (req, res) => {
         res.json({
             success: true,
             message: 'Document analyzed successfully',
+            filename: outputFileName,  // Add filename for frontend
             analysis: {
+                _id: savedAnalysis._id,
                 riskScore: analysis.risk.score,
                 riskLevel: analysis.risk.level,
                 entitiesCount: analysis.analysis.entities?.length || 0,
                 keywordsCount: analysis.keywords?.length || 0,
-                riskFactors: analysis.risk.factors
+                riskFactors: analysis.risk.factors,
+                risk: analysis.risk,
+                entities: analysis.analysis.entities || []
             },
             downloadUrl: `/api/document/download/${outputFileName}`,
             analysisId: savedAnalysis._id

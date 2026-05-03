@@ -16,7 +16,7 @@ Praetor is a legal document review platform that leverages IBM Watson Natural La
 - **🤖 AI-Powered Analysis**: IBM Watson NLU for entity extraction, sentiment analysis, and risk assessment
 - **📊 Risk Scoring**: Automated risk calculation (0-100 scale) based on sentiment, entities, and keywords
 - **📄 Annotated Documents**: Download Word documents with embedded analysis results
-- **📚 Clause Library**: 15 pre-loaded legal clauses for testing and analysis
+- **📚 Clause Library**: 15 pre-loaded legal clauses for testing and analysis   
 - **💾 Cloud Storage**: IBM Cloudant database for persistent analysis history
 - **🎨 Modern UI**: Cyberpunk-themed interface with dark/light mode support
 - **📱 Responsive Design**: Works seamlessly on desktop and mobile devices

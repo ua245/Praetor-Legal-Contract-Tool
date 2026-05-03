@@ -338,11 +338,15 @@ function resetPipelineUI() {
 }
 
 function populateResults(doc) {
-    const scoreVal = doc.risk.score; 
-    const scoreFormatted = (scoreVal / 10).toFixed(1); 
-    const level = doc.risk.level; 
+    // Handle both formats: direct doc or nested in analysis
+    const analysis = doc.analysis || doc;
+    const risk = analysis.risk || {};
     
-    document.getElementById('result-id').innerText = `ID: ${doc._id || 'CUSTOM-TXT'}`;
+    const scoreVal = risk.score || 0;
+    const scoreFormatted = (scoreVal / 10).toFixed(1);
+    const level = risk.level || 'low';
+    
+    document.getElementById('result-id').innerText = `ID: ${analysis._id || doc._id || 'DOCUMENT-UPLOAD'}`;
     document.getElementById('result-score').innerText = `${scoreFormatted}`;
     document.getElementById('result-score').innerHTML += `<span class="fs-4 text-outline-variant fw-medium">/10</span>`;
     
@@ -366,7 +370,7 @@ function populateResults(doc) {
 
     const entitiesBox = document.getElementById('result-entities');
     entitiesBox.innerHTML = '';
-    const entities = doc.analysis.entities || [];
+    const entities = (analysis.analysis && analysis.analysis.entities) || analysis.entities || [];
     if(entities.length === 0) {
         entitiesBox.innerHTML = '<span class="text-xs text-outline">No specific entities extracted.</span>';
     } else {
@@ -377,7 +381,7 @@ function populateResults(doc) {
 
     const vectorsBox = document.getElementById('result-vectors');
     vectorsBox.innerHTML = '';
-    const factors = doc.risk.factors || [];
+    const factors = risk.factors || [];
     if(factors.length === 0) {
         vectorsBox.innerHTML = '<span class="text-xs text-outline">No critical risk vectors identified.</span>';
     } else {
@@ -497,8 +501,14 @@ function setupFileUpload() {
   // Download button
   if (downloadBtn) {
     downloadBtn.addEventListener('click', () => {
+      console.log('Download button clicked, filename:', downloadFilename);
       if (downloadFilename) {
-        window.location.href = `${API_BASE}/document/download/${downloadFilename}`;
+        const downloadUrl = `${API_BASE}/document/download/${downloadFilename}`;
+        console.log('Downloading from:', downloadUrl);
+        window.location.href = downloadUrl;
+      } else {
+        console.error('No filename available for download');
+        alert('No file available for download. Please upload a document first.');
       }
     });
   }
@@ -552,12 +562,15 @@ async function handleFileUpload(file) {
     
     // Store download filename
     downloadFilename = data.filename;
+    console.log('Upload successful! Filename:', downloadFilename);
+    console.log('Full response:', data);
     
     // Show download section
     setTimeout(() => {
       uploadStatus.classList.add('d-none');
       downloadSection.classList.remove('d-none');
       lucide.createIcons();
+      console.log('Download section now visible');
     }, 1000);
     
     // Also populate results view

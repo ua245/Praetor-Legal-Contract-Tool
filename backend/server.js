@@ -4,6 +4,7 @@ const cors = require('cors');
 const watsonService = require('./services/watson.service');
 const cloudantService = require('./services/cloudant.service');
 const analysisRoutes = require('./routes/analysis.routes');
+const documentRoutes = require('./routes/document.routes');
 
 /**
  * Legal Document Review API Server
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 
 // Mount API routes
 app.use('/api', analysisRoutes);
+app.use('/api/document', documentRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
