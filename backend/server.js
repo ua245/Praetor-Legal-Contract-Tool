@@ -4,6 +4,7 @@ const cors = require('cors');
 const watsonService = require('./services/watson.service');
 const cloudantService = require('./services/cloudant.service');
 const analysisRoutes = require('./routes/analysis.routes');
+const documentRoutes = require('./routes/document.routes');
 
 /**
  * Legal Document Review API Server
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 
 // Mount API routes
 app.use('/api', analysisRoutes);
+app.use('/api/document', documentRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -34,6 +36,8 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       health: 'GET /api/health',
+      uploadDocument: 'POST /api/document/upload',
+      downloadDocument: 'GET /api/document/download/:filename',
       clauses: 'GET /api/clauses',
       clause: 'GET /api/clauses/:id',
       analyzeClause: 'POST /api/clauses/:id/analyze',
@@ -113,14 +117,16 @@ async function startServer() {
       console.log('═══════════════════════════════════════════════════════');
       console.log('');
       console.log('Available endpoints:');
-      console.log('  GET  /api/health              - Health check');
-      console.log('  GET  /api/clauses             - List all clauses');
-      console.log('  GET  /api/clauses/:id         - Get specific clause');
-      console.log('  POST /api/clauses/:id/analyze - Analyze clause');
-      console.log('  POST /api/analyze/batch       - Analyze all clauses');
-      console.log('  POST /api/analyze/custom      - Analyze custom text');
-      console.log('  GET  /api/results             - List all results');
-      console.log('  GET  /api/results/:id         - Get specific result');
+      console.log('  GET  /api/health                    - Health check');
+      console.log('  POST /api/document/upload           - Upload & analyze Word document');
+      console.log('  GET  /api/document/download/:file   - Download analyzed document');
+      console.log('  GET  /api/clauses                   - List all clauses');
+      console.log('  GET  /api/clauses/:id               - Get specific clause');
+      console.log('  POST /api/clauses/:id/analyze       - Analyze clause');
+      console.log('  POST /api/analyze/batch             - Analyze all clauses');
+      console.log('  POST /api/analyze/custom            - Analyze custom text');
+      console.log('  GET  /api/results                   - List all results');
+      console.log('  GET  /api/results/:id               - Get specific result');
       console.log('');
       
       if (!process.env.WATSON_NLU_APIKEY || !process.env.CLOUDANT_URL) {

@@ -1,9 +1,15 @@
 // Ensure this points to your Node server port
 const API_BASE = 'http://localhost:3000/api';
 
+// Global variable to store download filename
+let downloadFilename = null;
+
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Icons
   lucide.createIcons();
+  
+  // 2. Setup File Upload
+  setupFileUpload();
 
   // 2. Real-time Clock
   const timeEl = document.getElementById('system-time');
@@ -433,4 +439,142 @@ window.fetchAndShowResult = async function(id) {
     } catch(e) {
         console.error("Could not fetch result", e);
     }
+}
+
+// ==========================================
+// FILE UPLOAD FUNCTIONALITY
+// ==========================================
+
+function setupFileUpload() {
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const browseBtn = document.getElementById('btn-browse');
+  const downloadBtn = document.getElementById('btn-download');
+  
+  // Browse button click
+  if (browseBtn) {
+    browseBtn.addEventListener('click', () => fileInput.click());
+  }
+  
+  // File input change
+  if (fileInput) {
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleFileUpload(e.target.files[0]);
+      }
+    });
+  }
+  
+  // Drag and drop events
+  if (dropZone) {
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-primary', 'bg-primary-10');
+    });
+    
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-primary', 'bg-primary-10');
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-primary', 'bg-primary-10');
+      
+      if (e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        if (file.name.endsWith('.docx')) {
+          handleFileUpload(file);
+        } else {
+          alert('Please upload a .docx file');
+        }
+      }
+    });
+  }
+  
+  // Download button
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', () => {
+      if (downloadFilename) {
+        window.location.href = `${API_BASE}/document/download/${downloadFilename}`;
+      }
+    });
+  }
+}
+
+async function handleFileUpload(file) {
+  const uploadStatus = document.getElementById('upload-status');
+  const downloadSection = document.getElementById('download-section');
+  const filenameEl = document.getElementById('upload-filename');
+  const filesizeEl = document.getElementById('upload-filesize');
+  const progressBar = document.getElementById('upload-progress');
+  const messageEl = document.getElementById('upload-message');
+  
+  // Show upload status
+  uploadStatus.classList.remove('d-none');
+  downloadSection.classList.add('d-none');
+  
+  // Display file info
+  filenameEl.textContent = file.name;
+  filesizeEl.textContent = `${(file.size / 1024).toFixed(2)} KB`;
+  progressBar.style.width = '0%';
+  messageEl.textContent = 'Uploading document...';
+  messageEl.className = 'text-xxs text-primary mt-2';
+  
+  try {
+    // Create form data
+    const formData = new FormData();
+    formData.append('document', file);
+    
+    // Simulate progress
+    progressBar.style.width = '30%';
+    
+    // Upload file
+    const response = await fetch(`${API_BASE}/document/upload`, {
+      method: 'POST',
+      body: formData
+    });
+    
+    progressBar.style.width = '60%';
+    
+    const data = await response.json();
+    
+    if (!data.success) {
+      throw new Error(data.message || 'Upload failed');
+    }
+    
+    // Complete progress
+    progressBar.style.width = '100%';
+    messageEl.textContent = 'Analysis complete! Document ready for download.';
+    messageEl.className = 'text-xxs text-success mt-2';
+    
+    // Store download filename
+    downloadFilename = data.filename;
+    
+    // Show download section
+    setTimeout(() => {
+      uploadStatus.classList.add('d-none');
+      downloadSection.classList.remove('d-none');
+      lucide.createIcons();
+    }, 1000);
+    
+    // Also populate results view
+    if (data.analysis) {
+      populateResults(data.analysis);
+    }
+    
+  } catch (error) {
+    console.error('Upload error:', error);
+    progressBar.style.width = '100%';
+    progressBar.className = 'progress-bar bg-danger rounded-pill';
+    messageEl.textContent = `Error: ${error.message}`;
+    messageEl.className = 'text-xxs text-danger mt-2';
+    
+    setTimeout(() => {
+      uploadStatus.classList.add('d-none');
+      progressBar.className = 'progress-bar bg-primary rounded-pill';
+    }, 3000);
+  }
 }

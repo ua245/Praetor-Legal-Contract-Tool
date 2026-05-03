@@ -252,6 +252,44 @@ body.light-mode .btn-outline-secondary {
 
 /* Keep active state primary blue */
 body.light-mode .icon-btn.active,
-body.light-mode .nav-btn.active { 
-  color: var(--color-primary) !important; 
+body.light-mode .nav-btn.active {
+  color: var(--color-primary) !important;
+}
+
+/* ==========================================
+   FILE UPLOAD DROP ZONE
+   ========================================== */
+.drop-zone {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.drop-zone:hover {
+  border-color: var(--color-primary) !important;
+  background-color: rgba(0, 212, 255, 0.05) !important;
+}
+
+.drop-zone.dragging {
+  border-color: var(--color-primary) !important;
+  background-color: rgba(0, 212, 255, 0.1) !important;
+  border-style: dashed !important;
+}
+
+.icon-lg {
+  width: 48px;
+  height: 48px;
+}
+
+/* Light mode adjustments for drop zone */
+body.light-mode .drop-zone:hover {
+  background-color: rgba(2, 132, 199, 0.05) !important;
+}
+
+body.light-mode .drop-zone.dragging {
+  background-color: rgba(2, 132, 199, 0.1) !important;
 }
