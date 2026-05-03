@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Praetor - Legal Intelligence Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-background text-slate-200">
+
+  <!-- Top NavBar -->
+  <header class="top-nav d-flex align-items-center justify-content-between px-3 fixed-top shadow-glow border-bottom border-surface-low bg-background z-50">
+    <div class="d-flex align-items-center gap-4 h-100">
+      <div class="d-flex align-items-center gap-2">
+        <span class="fs-5 fw-black text-primary tracking-tighter">Praetor</span>
+        <span class="d-none d-md-block font-mono text-xs text-outline tracking-widest text-uppercase border-start border-outline-variant ps-3">
+          Legal Intelligence Platform
+        </span>
+      </div>
+      <nav class="d-none d-lg-flex align-items-center h-100 gap-1" id="top-nav-links">
+        <button class="nav-btn active" data-target="overview">OVERVIEW<div class="nav-underline"></div></button>
+        <button class="nav-btn" data-target="analyse">ANALYSE<div class="nav-underline"></div></button>
+        <button class="nav-btn" data-target="results">RESULTS<div class="nav-underline"></div></button>
+        <button class="nav-btn" data-target="clause_library">CLAUSE LIBRARY<div class="nav-underline"></div></button>
+      </nav>
+    </div>
+
+    <div class="d-flex align-items-center gap-3">
+      <div class="d-none d-sm-flex align-items-center gap-2 bg-surface-low px-2 py-1 rounded glow-border">
+        <div id="api-status-dot" class="status-dot bg-warning animate-pulse"></div>
+        <span id="api-status-text" class="font-mono text-xxs text-warning">CONNECTING...</span>
+      </div>
+      <span class="d-none d-md-block font-mono text-xxs text-slate-400 border-start border-surface-low ps-3" id="system-time">
+        00:00:00 UTC
+      </span>
+      <div class="d-flex align-items-center gap-2 border-start border-surface-low ps-3">
+        <button class="icon-btn nav-btn hover-primary" data-target="settings"><i data-lucide="settings" class="icon-sm"></i><div class="nav-underline"></div></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="d-flex w-100 h-100 pt-5 mt-2 pb-4 overflow-hidden">
+    
+    <!-- Side NavBar -->
+    <aside class="side-nav fixed-left border-end border-surface-low bg-background d-flex flex-column z-40">
+      <div class="p-3 border-bottom border-surface-low d-flex align-items-center gap-2">
+        <div class="icon-box bg-surface rounded glow-border d-flex align-items-center justify-content-center">
+          <i data-lucide="cpu" class="icon-sm text-primary"></i>
+        </div>
+        <div>
+          <div class="font-mono text-xxs fw-bold text-white text-uppercase">System Intel</div>
+          <div class="font-mono" style="font-size: 9px; color: var(--color-primary);">V3.4 INITIALIZED</div>
+        </div>
+      </div>
+      
+      <nav class="flex-grow-1 py-3 px-2 d-flex flex-column gap-1" id="side-nav-links">
+        <button class="side-btn active" data-target="overview"><i data-lucide="bar-chart-3" class="icon-sm"></i> <span>DASHBOARD</span></button>
+        <button class="side-btn" data-target="analyse"><i data-lucide="file-text" class="icon-sm"></i> <span>DOCUMENTS</span></button>
+        <button class="side-btn" data-target="results"><i data-lucide="shield-alert" class="icon-sm"></i> <span>RISK ENGINE</span></button>
+        <button class="side-btn" data-target="clause_library"><i data-lucide="gavel" class="icon-sm"></i> <span>CLAUSE LIBRARY</span></button>
+      </nav>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="main-content flex-grow-1 p-3 overflow-hidden position-relative">
+      
+      <!-- SCREEN: OVERVIEW -->
+      <div id="screen-overview" class="screen-view active-screen fade-blur d-flex flex-column gap-4 h-100 overflow-auto">
+        <section class="bg-surface-lowest border border-outline-variant p-4 position-relative overflow-hidden anim-slide-up" style="min-height: 160px;">
+          <div class="position-absolute top-0 end-0 p-3 opacity-25">
+            <i data-lucide="radar" class="text-primary" style="width: 128px; height: 128px;"></i>
+          </div>
+          <div class="font-mono text-xs text-primary opacity-75 mb-1">&gt; Initialising Praetor Legal Intelligence...</div>
+          <div class="font-mono text-xs text-primary opacity-75 mb-1" id="dash-api-log">&gt; Connecting to Backend API... [PENDING]</div>
+          <div class="font-mono text-xs text-primary opacity-75 mb-1">&gt; Loading legal knowledge graph... [VERIFIED]</div>
+          <div class="font-mono text-xs text-primary animate-pulse mt-3">&gt; Systems nominal. Ready for command input.</div>
+        </section>
+
+        <section class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4 anim-slide-up stagger-1">
+            <div class="bg-surface border border-outline-variant p-3 stat-card glow-hover d-flex flex-column justify-content-between h-100">
+              <span class="text-xxs fw-bold text-outline-variant tracking-widest text-uppercase">Total Analyses</span>
+              <div class="font-mono fs-4 fw-bold text-white" id="stat-total">0</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 anim-slide-up stagger-2">
+            <div class="bg-surface border border-outline-variant p-3 stat-card glow-hover d-flex flex-column justify-content-between h-100">
+              <span class="text-xxs fw-bold text-outline-variant tracking-widest text-uppercase">Library Clauses</span>
+              <div class="font-mono fs-4 fw-bold text-white" id="stat-clauses">0</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 anim-slide-up stagger-3">
+            <div class="bg-surface border border-outline-variant p-3 stat-card glow-hover d-flex flex-column justify-content-between h-100">
+              <span class="text-xxs fw-bold text-outline-variant tracking-widest text-uppercase">API Status</span>
+              <span class="d-flex align-items-center gap-2 font-mono fs-6 text-white" id="stat-api">
+                <div class="status-dot bg-warning shadow-warning"></div> CHECKING
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="row g-3 flex-grow-1" style="min-height: 300px;">
+          <div class="col-lg-8">
+            <div class="bg-surface-low border border-outline-variant p-3 d-flex flex-column h-100">
+              <div class="d-flex justify-content-between align-items-center border-bottom border-outline-variant pb-2 mb-3">
+                <h3 class="text-xs fw-bold text-outline text-uppercase tracking-widest d-flex align-items-center m-0">
+                  <i data-lucide="activity" class="icon-xs text-primary me-2"></i> Live Analysis Stream
+                </h3>
+                <span class="font-mono" style="font-size: 9px; color: rgba(0,212,255,0.5);">ACTIVE MONITORING</span>
+              </div>
+              <div class="font-mono text-xxs opacity-75 d-flex flex-column gap-2 flex-grow-1">
+                <div class="d-flex justify-content-between"><span>[14:42:01]</span><span class="text-primary ms-2 text-truncate">EXTRACTING ENTITIES FROM NDA_REDACTED.PDF...</span></div>
+                <div class="d-flex justify-content-between"><span>[14:42:05]</span><span class="text-warning ms-2 text-truncate">RISK FLAGGED: LIMITATION_OF_LIABILITY_EXCESSIVE</span></div>
+                <div class="d-flex justify-content-between"><span>[14:42:09]</span><span class="text-success ms-2 text-truncate">COMPLIANCE CHECK: GDPR ARTICLE 32... [PASSED]</span></div>
+                <div class="d-flex justify-content-between"><span>[14:42:15]</span><span class="text-primary ms-2 text-truncate">PARSING GOVERNING LAW CLAUSE... [DELAWARE DETECTED]</span></div>
+                <div class="d-flex justify-content-between"><span>[14:42:20]</span><span class="text-outline ms-2 text-truncate">IDLE... AWAITING BUFFER</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="bg-surface-low border border-outline-variant p-3 d-flex flex-column h-100">
+              <h3 class="text-xs fw-bold text-outline text-uppercase tracking-widest border-bottom border-outline-variant pb-2 mb-3 d-flex align-items-center">
+                <i data-lucide="shield-check" class="icon-xs text-primary me-2"></i> Security Guard
+              </h3>
+              <div class="d-flex flex-column gap-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-xxs text-outline">Encryption</span>
+                  <span class="font-mono text-xxs text-white bg-primary-10 px-2 py-1 border border-primary">AES-256</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-xxs text-outline">Sovereignty</span>
+                  <span class="font-mono text-xxs text-success">VERIFIED</span>
+                </div>
+                <div class="pt-3 border-top border-outline-variant mt-2">
+                  <div class="text-xxs text-outline mb-2">Network Latency</div>
+                  <div class="progress bg-surface-high rounded-pill" style="height: 4px;">
+                    <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: 24%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="bg-surface-high border border-outline-variant p-2 d-flex align-items-center gap-2 mt-auto">
+          <i data-lucide="terminal" class="icon-sm text-primary ms-2"></i>
+          <input type="text" placeholder="Enter command or entity to analyze..." class="form-control-plaintext text-white font-mono text-xs flex-grow-1 outline-none ms-2">
+          <button class="btn btn-primary rounded-0 fw-black text-xs text-uppercase tracking-widest px-4 py-1 ms-auto glow-btn shadow-primary">EXECUTE</button>
+        </div>
+      </div>
+
+      <!-- SCREEN: ANALYSE -->
+      <div id="screen-analyse" class="screen-view d-none h-100 row g-3 m-0 fade-blur">
+        <div class="col-lg-8 d-flex flex-column gap-3 p-0 pe-lg-2">
+          <!-- Document Upload Zone -->
+          <div class="bg-surface-lowest border border-outline-variant p-4 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h2 class="text-sm fw-bold text-uppercase tracking-widest text-white d-flex align-items-center m-0">
+                <i data-lucide="file-up" class="icon-sm text-primary me-2"></i> Document Upload
+              </h2>
+            </div>
+            
+            <div id="drop-zone" class="drop-zone bg-surface border border-outline-variant p-4 text-center position-relative transition-all">
+              <input type="file" id="file-input" accept=".docx" class="d-none">
+              <i data-lucide="upload-cloud" class="icon-lg text-primary mb-3" style="width: 48px; height: 48px;"></i>
+              <div class="text-sm text-white mb-2">Drag & Drop Word Document</div>
+              <div class="text-xxs text-outline mb-3">or click to browse (.docx files only)</div>
+              <button id="btn-browse" class="btn btn-outline-primary rounded-0 text-xs fw-bold text-uppercase tracking-widest px-4 py-2">
+                Browse Files
+              </button>
+            </div>
+            
+            <div id="upload-status" class="d-none mt-3 p-3 bg-surface border border-outline-variant">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="text-xs text-white" id="upload-filename">document.docx</span>
+                <span class="text-xxs text-outline" id="upload-filesize">0 KB</span>
+              </div>
+              <div class="progress bg-surface-high rounded-pill" style="height: 4px;">
+                <div id="upload-progress" class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: 0%"></div>
+              </div>
+              <div class="text-xxs text-outline mt-2" id="upload-message">Preparing upload...</div>
+            </div>
+            
+            <div id="download-section" class="d-none mt-3 p-3 bg-surface border border-primary">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="text-xs fw-bold text-white mb-1">Analysis Complete!</div>
+                  <div class="text-xxs text-outline">Your annotated document is ready</div>
+                </div>
+                <button id="btn-download" class="btn btn-primary rounded-0 fw-bold text-xs text-uppercase tracking-widest px-4 py-2 d-flex align-items-center glow-btn">
+                  <i data-lucide="download" class="icon-sm me-2"></i> Download
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Text Analysis Zone (Alternative) -->
+          <div class="bg-surface-lowest border border-outline-variant p-3 d-flex flex-column flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h2 class="text-sm fw-bold text-uppercase tracking-widest text-white d-flex align-items-center m-0">
+                <i data-lucide="monitor" class="icon-sm text-primary me-2"></i> Text Analysis (Alternative)
+              </h2>
+              <div class="d-flex gap-3 align-items-center">
+                <select id="clause-type-select" class="form-select form-select-sm bg-surface border-outline-variant text-white text-xs px-3 py-1 rounded-0 focus-border-primary">
+                  <option value="custom">Custom Text</option>
+                  <option value="confidentiality">Confidentiality</option>
+                  <option value="termination">Termination</option>
+                  <option value="liability">Liability</option>
+                </select>
+                <button id="btn-reset-text" class="btn btn-link text-outline text-decoration-none text-xxs fw-bold p-0 d-flex align-items-center text-uppercase hover-white tracking-wider">
+                  <i data-lucide="rotate-ccw" class="icon-xs me-1"></i> Reset
+                </button>
+              </div>
+            </div>
+            <div class="flex-grow-1 bg-surface border border-outline-variant p-3 position-relative form-glow transition-all">
+              <textarea id="analyse-textarea" class="w-100 h-100 bg-transparent border-0 text-white text-sm outline-none resize-none lh-lg" placeholder="Paste raw legal text for extraction and scoring..."></textarea>
+              <div class="position-absolute bottom-0 end-0 p-3 font-mono text-xxs text-outline" id="char-count">0 / 25,000 CHARS</div>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+              <button id="btn-analyze" class="btn btn-primary rounded-0 fw-bold text-sm text-uppercase tracking-widest px-4 py-2 d-flex align-items-center glow-btn-active transition-all">
+                <i data-lucide="radar" class="icon-sm me-2"></i> <span id="analyze-btn-text">Analyse Text</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 d-flex flex-column gap-3 p-0 ps-lg-2">
+          <div class="bg-surface-lowest border border-outline-variant p-3 flex-grow-1 d-flex flex-column">
+            <h3 class="text-xs fw-bold text-outline text-uppercase tracking-widest border-bottom border-outline-variant pb-2 mb-3">Pipeline Status</h3>
+            <div class="d-flex flex-column gap-4 flex-grow-1">
+              <div class="d-flex align-items-center gap-3 position-relative">
+                <div id="step-1" class="step-circle"><i data-lucide="check" class="icon-xs"></i></div>
+                <div>
+                  <div class="text-xxs fw-bold text-outline text-uppercase">Step 01</div>
+                  <div class="text-xs text-white">API Connection</div>
+                </div>
+                <div class="step-line"></div>
+              </div>
+              <div class="d-flex align-items-center gap-3 position-relative">
+                <div id="step-2" class="step-circle text-outline">02</div>
+                <div>
+                  <div class="text-xxs fw-bold text-outline text-uppercase">Step 02</div>
+                  <div class="text-xs text-white">Watson NLU Analysis</div>
+                </div>
+                <div class="step-line"></div>
+              </div>
+              <div class="d-flex align-items-center gap-3 position-relative">
+                <div id="step-3" class="step-circle text-outline">03</div>
+                <div>
+                  <div class="text-xxs fw-bold text-outline text-uppercase">Step 03</div>
+                  <div class="text-xs text-white">Cloudant Database Save</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN: RESULTS -->
+      <div id="screen-results" class="screen-view d-none h-100 row g-3 m-0 fade-blur">
+        <div class="col-lg-8 d-flex flex-column gap-3 p-0 pe-lg-2">
+          <div id="result-header-bg" class="bg-surface-lowest border border-outline-variant p-4 position-relative overflow-hidden d-flex flex-column justify-content-between" style="height: 256px;">
+            <div id="result-color-bar" class="position-absolute top-0 start-0 w-100 bg-primary" style="height: 4px;"></div>
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h2 class="fs-5 fw-bold text-uppercase text-white d-flex align-items-center m-0">
+                  <i data-lucide="shield-alert" class="icon-sm text-primary me-2"></i> Analysis Terminal Output
+                </h2>
+                <div id="result-id" class="font-mono text-xxs text-outline mt-1 text-uppercase tracking-widest transition-all">AWAITING INPUT</div>
+              </div>
+              <div id="result-badge" class="d-none border px-3 py-1 text-xs fw-black text-uppercase tracking-widest d-flex align-items-center">
+                <i data-lucide="alert-triangle" class="icon-xs me-2"></i> <span id="result-badge-text">...</span>
+              </div>
+            </div>
+            
+            <div class="d-flex align-items-end justify-content-between">
+              <div>
+                <div id="result-score" class="fw-black text-primary tracking-tighter" style="font-size: 64px; line-height: 1;">0.0<span class="fs-4 text-outline-variant fw-medium">/10</span></div>
+                <div class="font-mono text-xxs text-outline text-uppercase tracking-widest mt-2">Overall Risk Exposure Level</div>
+              </div>
+              <div style="width: 40%;">
+                <div class="d-flex justify-content-between font-mono text-xxs text-outline mb-2">
+                  <span>Threshold Check</span>
+                  <span id="result-threshold-text" class="text-primary">0%</span>
+                </div>
+                <div class="progress bg-surface-high rounded-pill overflow-hidden" style="height: 6px;">
+                  <div id="result-threshold-bar" class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 flex-grow-1">
+            <div class="col-6">
+              <div class="bg-surface-lowest border border-outline-variant p-3 h-100 overflow-auto">
+                <h3 class="text-xxs fw-bold text-outline-variant text-uppercase tracking-widest border-bottom border-surface-low pb-2 mb-3">Extracted Entities</h3>
+                <div id="result-entities" class="d-flex flex-wrap gap-2">
+                  <span class="text-xs text-outline">No document analyzed yet.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="bg-surface-lowest border border-outline-variant p-3 h-100 d-flex flex-column overflow-auto">
+                <h3 class="text-xxs fw-bold text-outline-variant text-uppercase tracking-widest border-bottom border-surface-low pb-2 mb-3">Critical Vectors</h3>
+                <div id="result-vectors" class="d-flex flex-column gap-2 mt-2">
+                   <span class="text-xs text-outline">No document analyzed yet.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 d-flex flex-column h-100 p-0 ps-lg-2">
+          <div class="bg-surface-lowest border border-outline-variant p-3 d-flex flex-column flex-grow-1">
+            <h3 class="text-sm fw-bold text-white mb-3 d-flex align-items-center">
+              <i data-lucide="history" class="icon-sm text-primary me-2"></i> Recent Ingestions
+            </h3>
+            <div id="recent-ingestions" class="d-flex flex-column gap-2 overflow-auto flex-grow-1">
+              <!-- Dynamically populated -->
+              <div class="text-xs text-outline text-center mt-4">Loading history...</div>
+            </div>
+            <button onclick="loadRecentIngestions()" class="btn btn-outline-primary rounded-0 w-100 mt-3 font-mono text-xxs text-uppercase tracking-widest border-outline-variant text-primary transition-all hover-border-primary">
+              Synchronize History
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN: CLAUSE LIBRARY -->
+      <div id="screen-clause_library" class="screen-view d-none h-100 d-flex flex-column gap-3 fade-blur">
+        <div class="d-flex align-items-center justify-content-between bg-surface border border-outline-variant px-3 py-2">
+          <div class="d-flex align-items-center gap-3">
+            <h2 class="text-sm fw-bold text-uppercase tracking-widest text-white m-0">Clause Intelligence Library</h2>
+            <div class="bg-outline-variant" style="width: 1px; height: 16px;"></div>
+            <div class="font-mono text-xxs text-outline m-0">AVAILABLE TEMPLATES: <span id="library-count" class="text-primary tracking-normal">0</span></div>
+          </div>
+          <button onclick="loadClauseLibrary()" class="btn btn-outline-secondary rounded-0 text-outline border-outline-variant text-xxs fw-bold text-uppercase tracking-widest d-flex align-items-center px-2 py-1 hover-white">
+            <i data-lucide="rotate-ccw" class="icon-xs me-2"></i> Refresh
+          </button>
+        </div>
+
+        <div id="clause-grid" class="row g-2 overflow-auto pb-2 pe-1">
+           <!-- Dynamically populated from /api/clauses -->
+        </div>
+      </div>
+
+      <!-- SCREEN: SETTINGS (RESTORED!) -->
+      <div id="screen-settings" class="screen-view d-none h-100 d-flex flex-column gap-4 fade-blur">
+        <div class="d-flex justify-content-between align-items-center border-bottom border-surface-low pb-3">
+  <h1 class="fs-4 fw-black text-white m-0 tracking-tighter">Settings & System Core</h1>
+  <div class="d-flex gap-2">
+    <button id="btn-revert-settings" class="btn btn-outline-secondary rounded-0 text-white border-outline-variant text-xxs fw-bold text-uppercase tracking-widest px-3 py-2 transition-all hover-bg-surface-low">Revert</button>
+    <button id="btn-apply-settings" class="btn btn-primary rounded-0 text-background text-xxs fw-bold text-uppercase tracking-widest px-3 py-2 glow-btn transition-all">Apply Command</button>
+  </div>
+</div>
+
+        <div class="row g-4 flex-grow-1 overflow-hidden m-0 pb-2 text-slate-100">
+          <div class="col-md-6 h-100 p-0 pe-md-3 d-flex flex-column">
+            <div class="bg-surface-lowest border border-outline-variant d-flex flex-column h-100 overflow-hidden">
+              <div class="p-3 border-bottom border-surface-low bg-surface-low-50">
+                <h2 class="text-xs fw-bold text-uppercase tracking-widest text-primary d-flex align-items-center m-0">
+                  <i data-lucide="shield-check" class="icon-sm me-2"></i> Regulation & Compliance Matrix
+                </h2>
+              </div>
+              <div class="p-3 d-flex flex-column gap-3 overflow-auto flex-grow-1">
+                <!-- Compliance 1 -->
+                <div class="bg-background-50 border border-success-30 border-start-success p-3 d-flex align-items-start gap-3">
+                  <div class="icon-box rounded-circle bg-success-20 border border-success-30 text-success d-flex justify-content-center align-items-center flex-shrink-0">
+                    <i data-lucide="check" class="icon-sm"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="text-xs fw-bold text-uppercase tracking-widest text-white">SOC2</span>
+                      <span class="bg-success-20 text-success text-xxs fw-black px-2 rounded-1">CERTIFIED</span>
+                    </div>
+                    <p class="text-xs text-outline opacity-80 m-0 lh-sm">System organization controls ensuring total processing integrity and privacy.</p>
+                  </div>
+                </div>
+                <!-- Compliance 2 -->
+                <div class="bg-background-50 border border-success-30 border-start-success p-3 d-flex align-items-start gap-3">
+                  <div class="icon-box rounded-circle bg-success-20 border border-success-30 text-success d-flex justify-content-center align-items-center flex-shrink-0">
+                    <i data-lucide="check" class="icon-sm"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="text-xs fw-bold text-uppercase tracking-widest text-white">GDPR</span>
+                      <span class="bg-success-20 text-success text-xxs fw-black px-2 rounded-1">COMPLIANT</span>
+                    </div>
+                    <p class="text-xs text-outline opacity-80 m-0 lh-sm">Strict regulatory adherence for sovereign data processing protocols.</p>
+                  </div>
+                </div>
+                <!-- Compliance 3 -->
+                <div class="bg-background-50 border border-success-30 border-start-success p-3 d-flex align-items-start gap-3">
+                  <div class="icon-box rounded-circle bg-success-20 border border-success-30 text-success d-flex justify-content-center align-items-center flex-shrink-0">
+                    <i data-lucide="check" class="icon-sm"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="text-xs fw-bold text-uppercase tracking-widest text-white">HIPAA</span>
+                      <span class="bg-success-20 text-success text-xxs fw-black px-2 rounded-1">VERIFIED</span>
+                    </div>
+                    <p class="text-xs text-outline opacity-80 m-0 lh-sm">Standards for protecting sensitive high-stakes intelligence data.</p>
+                  </div>
+                </div>
+                <!-- Compliance 4 -->
+                <div class="bg-background-50 border border-success-30 border-start-success p-3 d-flex align-items-start gap-3">
+                  <div class="icon-box rounded-circle bg-success-20 border border-success-30 text-success d-flex justify-content-center align-items-center flex-shrink-0">
+                    <i data-lucide="check" class="icon-sm"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="text-xs fw-bold text-uppercase tracking-widest text-white">ISO 27001</span>
+                      <span class="bg-success-20 text-success text-xxs fw-black px-2 rounded-1">ACTIVE</span>
+                    </div>
+                    <p class="text-xs text-outline opacity-80 m-0 lh-sm">Global information security management implementation.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6 h-100 p-0 ps-md-3 d-flex flex-column">
+            <div class="bg-surface-lowest border border-outline-variant d-flex flex-column h-100 overflow-hidden">
+              <div class="p-3 border-bottom border-surface-low bg-surface-low-50">
+                <h2 class="text-xs fw-bold text-uppercase tracking-widest text-primary d-flex align-items-center m-0">
+                  <i data-lucide="settings" class="icon-sm me-2"></i> Interface Configuration
+                </h2>
+              </div>
+              <div class="p-4 d-flex flex-column gap-5 overflow-auto flex-grow-1">
+                <div>
+  <h3 class="text-xxs fw-bold text-outline-variant text-uppercase mb-3 border-bottom border-surface-low pb-2" style="letter-spacing: 0.2em;">Operational Mode</h3>
+  <div class="d-flex align-items-center justify-content-between bg-background-50 border border-outline-variant p-3 rounded-1 transition-all">
+    <div class="d-flex align-items-center gap-3">
+      <i id="theme-icon" data-lucide="moon" class="icon-md text-outline"></i>
+      <div>
+        <div id="theme-label" class="text-xs fw-bold text-white">Dark Command</div>
+        <div id="theme-desc" class="text-xxs text-outline fst-italic">High-contrast tactical environment</div>
+      </div>
+    </div>
+    <div id="dark-command-toggle" class="toggle-switch active"></div>
+  </div>
+</div>
+
+                <div>
+                  <h3 class="text-xxs fw-bold text-outline-variant text-uppercase mb-3 border-bottom border-surface-low pb-2" style="letter-spacing: 0.2em;">Security Parameters</h3>
+                  <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center justify-content-between bg-background-50 border border-outline-variant p-3 rounded-1">
+                      <div>
+                        <div class="text-xs fw-bold text-white">Encryption Level</div>
+                        <div class="text-xxs text-outline">Network layer protection active</div>
+                      </div>
+                      <div class="font-mono text-xxs bg-surface px-2 py-1 border border-outline-variant text-primary">AES-256-GCM</div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between bg-background-50 border border-outline-variant p-3 rounded-1">
+                      <div>
+                        <div class="text-xs fw-bold text-white">AI Privacy Model</div>
+                        <div class="text-xxs text-outline">Network layer protection active</div>
+                      </div>
+                      <div class="font-mono text-xxs bg-surface px-2 py-1 border border-outline-variant text-warning">DEDICATED INSTANCE</div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between bg-background-50 border border-outline-variant p-3 rounded-1">
+                      <div>
+                        <div class="text-xs fw-bold text-white">Audit Logging</div>
+                        <div class="text-xxs text-outline">Immutable telemetry ledger</div>
+                      </div>
+                      <div id="audit-logging-toggle" class="toggle-switch small active border-primary-50 bg-primary-20"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+  
+  <footer class="footer fixed-bottom w-100 border-top border-surface-low bg-background d-flex align-items-center justify-content-between px-4 z-50" style="height: 32px;">
+    <div class="font-mono text-xxs text-uppercase tracking-widest text-slate-500">
+      Praetor Legal Intelligence — IBM Watson NLU — Cloudant DB
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
